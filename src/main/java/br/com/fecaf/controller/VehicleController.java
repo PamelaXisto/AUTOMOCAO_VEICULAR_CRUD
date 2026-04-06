@@ -3,7 +3,7 @@
 package br.com.fecaf.controller;
 
 import br.com.fecaf.model.Vehicle;
-import br.com.fecaf.service.VeiculoService;
+import br.com.fecaf.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://127.0.0.1:5501", allowedHeaders = "*")
 @RequestMapping("/api/veiculos") //Caminho
-public class VeiculoController {
+public class VehicleController {
 
     @Autowired
-    private VeiculoService veiculoService;
+    private VehicleService veiculoService;
 
 
     // Endpoint para listar os veiculos

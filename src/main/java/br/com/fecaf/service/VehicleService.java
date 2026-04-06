@@ -2,7 +2,7 @@ package br.com.fecaf.service;
 
 
 import br.com.fecaf.model.Vehicle;
-import br.com.fecaf.repository.VeiculoRepository;
+import br.com.fecaf.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ import java.util.Optional;
 // Validações
 
 @Service
-public class VeiculoService {
+public class VehicleService {
 
     @Autowired
-    private VeiculoRepository veiculoRepository;
+    private VehicleRepository veiculoRepository;
 
     // Metodo para listar Veículos
     public List<Vehicle> listarVeiculos() {
