@@ -1,13 +1,15 @@
-package br.com.fecaf.services;
+package br.com.fecaf.service;
 
 
-import br.com.fecaf.model.Veiculo;
+import br.com.fecaf.model.Vehicle;
 import br.com.fecaf.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+// Validações
 
 @Service
 public class VeiculoService {
@@ -16,18 +18,22 @@ public class VeiculoService {
     private VeiculoRepository veiculoRepository;
 
     // Metodo para listar Veículos
-    public List<Veiculo> listarVeiculos() { return veiculoRepository.findAll(); }
+    public List<Vehicle> listarVeiculos() {
+        return veiculoRepository.findAll();
+    }
 
 
     // Metodo para salvar/criar novo Veículo
-    public Veiculo cadastrarVeiculo(Veiculo veiculo) {return veiculoRepository.save(veiculo); }
+    public Vehicle cadastrarVeiculo(Vehicle veiculo) {
+        return veiculoRepository.save(veiculo);
+    }
 
 
-    public Veiculo editarVeiculo(Integer id, Veiculo veiculo) {
-        Optional<Veiculo> veiculoExistente = veiculoRepository.findById(id);
+    public Vehicle editarVeiculo(Integer id, Vehicle veiculo) {
+        Optional<Vehicle> veiculoExistente = veiculoRepository.findById(id);
 
         if (veiculoExistente.isPresent()) {
-            Veiculo veiculoAtualizado = veiculoExistente.get();
+            Vehicle veiculoAtualizado = veiculoExistente.get();
             veiculoAtualizado.setModelo(veiculo.getModelo());
             veiculoAtualizado.setAno(veiculo.getAno());
             veiculoAtualizado.setMarca(veiculo.getMarca());
