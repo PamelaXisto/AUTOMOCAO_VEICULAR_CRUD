@@ -34,14 +34,14 @@ public class VehicleService {
 
         if (veiculoExistente.isPresent()) {
             Vehicle veiculoAtualizado = veiculoExistente.get();
-            veiculoAtualizado.setModelo(veiculo.getModelo());
-            veiculoAtualizado.setAno(veiculo.getAno());
-            veiculoAtualizado.setMarca(veiculo.getMarca());
-            veiculoAtualizado.setQuilometragem(veiculo.getQuilometragem());
-            veiculoAtualizado.setCombustivel(veiculo.getCombustivel());
-            veiculoAtualizado.setDisponibilidade(veiculo.getDisponibilidade());
-            veiculoAtualizado.setPreco(veiculo.getPreco());
-            veiculoAtualizado.setFoto(veiculo.getFoto());
+            veiculoAtualizado.setModel(veiculo.getModel());
+            veiculoAtualizado.setYear(veiculo.getYear());
+            veiculoAtualizado.setBrand(veiculo.getBrand());
+            veiculoAtualizado.setMileage(veiculo.getMileage());
+            veiculoAtualizado.setFuelType(veiculo.getFuelType());
+            veiculoAtualizado.setAvailability(veiculo.getAvailability());
+            veiculoAtualizado.setPrice(veiculo.getPrice());
+            veiculoAtualizado.setImageUrl(veiculo.getImageUrl());
             return veiculoRepository.save(veiculoAtualizado);
         } else {
             return null;
