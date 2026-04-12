@@ -7,14 +7,18 @@ import br.com.fecaf.mapper.UserMapper;
 import br.com.fecaf.model.User;
 import br.com.fecaf.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserDTO registerUser(UserDTO userDTO) {
 
@@ -28,10 +32,12 @@ public class UserService {
             throw new DuplicateCpfException();
         }
 
-        user.setPasswordHash(userDTO.password());
+        String encryptedPassword = passwordEncoder.encode(userDTO.password());
+        user.setPasswordHash(encryptedPassword);
+        log.debug("User registered successfully: {}", user.getEmail());
 
-        User savedUser = userRepository.save(user);
+        user = userRepository.save(user);
 
-        return userMapper.toDTO(savedUser);
+        return userMapper.toDTO(user);
     }
 }
