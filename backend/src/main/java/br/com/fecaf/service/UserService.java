@@ -1,6 +1,8 @@
 package br.com.fecaf.service;
 
 import br.com.fecaf.dto.request.UserDTO;
+import br.com.fecaf.exception.custom.DuplicateCpfException;
+import br.com.fecaf.exception.custom.DuplicateEmailException;
 import br.com.fecaf.mapper.UserMapper;
 import br.com.fecaf.model.User;
 import br.com.fecaf.repository.UserRepository;
@@ -19,11 +21,11 @@ public class UserService {
         User user = userMapper.toEntity(userDTO);
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email já cadastrado");
+            throw new DuplicateEmailException();
         }
 
         if (userRepository.existsByCpf(user.getCpf())) {
-            throw new IllegalArgumentException("CPF já cadastrado");
+            throw new DuplicateCpfException();
         }
 
         user.setPasswordHash(userDTO.password());
