@@ -1,7 +1,6 @@
 package br.com.fecaf.controller;
 
 import br.com.fecaf.dto.request.UserDTO;
-import br.com.fecaf.model.User;
 import br.com.fecaf.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

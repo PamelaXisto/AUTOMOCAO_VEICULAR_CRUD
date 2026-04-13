@@ -9,7 +9,7 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id_user", ignore = true)
     @Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
     @Mapping(target = "cpf", source = "cpf", qualifiedByName = "normalizeCpf")
     @Mapping(target = "phone", source = "phone", qualifiedByName = "normalizePhone")
