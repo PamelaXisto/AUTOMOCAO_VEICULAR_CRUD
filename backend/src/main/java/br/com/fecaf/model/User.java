@@ -1,5 +1,6 @@
 package br.com.fecaf.model;
 
+import br.com.fecaf.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = "passwordHash")
+@ToString(exclude = "passwordHash")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -49,6 +50,10 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private UserStatus statusUser = UserStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")

@@ -1,6 +1,7 @@
 package br.com.fecaf.service;
 
 import br.com.fecaf.dto.request.UserDTO;
+import br.com.fecaf.enums.UserStatus;
 import br.com.fecaf.exception.custom.DuplicateCpfException;
 import br.com.fecaf.exception.custom.DuplicateEmailException;
 import br.com.fecaf.mapper.UserMapper;
@@ -39,5 +40,15 @@ public class UserService {
         user = userRepository.save(user);
 
         return userMapper.toDTO(user);
+    }
+
+
+    public void softDeleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        user.setStatusUser(UserStatus.DELETED);
+
+        userRepository.save(user);
     }
 }
