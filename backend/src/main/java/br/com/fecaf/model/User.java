@@ -2,7 +2,6 @@ package br.com.fecaf.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,14 +15,14 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@ToString(exclude = "passwordHash")
+@ToString(exclude = "passwordHash")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "id_user")
+    private Long idUser;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,7 +30,7 @@ public class User {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "cpf")
