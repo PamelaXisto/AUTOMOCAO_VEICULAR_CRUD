@@ -2,6 +2,7 @@ package br.com.fecaf.exception.handler;
 
 import br.com.fecaf.exception.custom.DuplicateCpfException;
 import br.com.fecaf.exception.custom.DuplicateEmailException;
+import br.com.fecaf.exception.custom.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDuplicateEmail(DuplicateEmailException ex) {
         Map<String, Object> body = buildBody(HttpStatus.CONFLICT, "Bad Request", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex) {
+        Map<String, Object> body = buildBody(HttpStatus.UNAUTHORIZED, "Invalid Credentials", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
 }
