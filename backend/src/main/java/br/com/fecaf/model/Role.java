@@ -14,11 +14,11 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") //Alterar no banco para id_role
+    @Column(name = "id_role")
     private Long id;
 
     @Column(name = "name", length = 50, nullable = false)
-    private String name;  //Alterar no banco para role_name
+    private String name;
 
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;

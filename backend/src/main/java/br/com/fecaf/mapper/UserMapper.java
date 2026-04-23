@@ -10,7 +10,6 @@ import org.mapstruct.Named;
 public interface UserMapper {
 
     @Mapping(target = "idUser", ignore = true)
-    @Mapping(target = "statusUser", ignore = true)
     @Mapping(target = "email", source = "email", qualifiedByName = "normalizeEmail")
     @Mapping(target = "cpf", source = "cpf", qualifiedByName = "normalizeCpf")
     @Mapping(target = "phone", source = "phone", qualifiedByName = "normalizePhone")
