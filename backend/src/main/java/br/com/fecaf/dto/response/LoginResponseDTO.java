@@ -1,4 +1,4 @@
 package br.com.fecaf.dto.response;
 
-public record LoginResponseDTO (String name){
+public record LoginResponseDTO (String name, String accessToken){
 }
