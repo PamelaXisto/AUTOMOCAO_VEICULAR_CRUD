@@ -1,10 +1,13 @@
 package br.com.fecaf.service;
 
 import br.com.fecaf.dto.request.UserDTO;
+import br.com.fecaf.enums.UserStatus;
 import br.com.fecaf.exception.custom.DuplicateCpfException;
 import br.com.fecaf.exception.custom.DuplicateEmailException;
 import br.com.fecaf.mapper.UserMapper;
+import br.com.fecaf.model.Role;
 import br.com.fecaf.model.User;
+import br.com.fecaf.repository.RoleRepository;
 import br.com.fecaf.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,8 +38,14 @@ public class UserService {
             throw new DuplicateCpfException();
         }
 
+        Role role = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("Role não encontrada"));
+
+        user.setRole(role);
+
         String encryptedPassword = passwordEncoder.encode(userDTO.password());
         user.setPasswordHash(encryptedPassword);
+
         log.debug("User registered successfully: {}", user.getEmail());
 
         user = userRepository.save(user);
@@ -50,5 +60,15 @@ public class UserService {
         return users.stream()
                 .map(userMapper::toDTO)
                 .toList();
+    }
+
+
+    public void softDeleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        user.setStatusUser(UserStatus.DISABLED);
+
+        userRepository.save(user);
     }
 }

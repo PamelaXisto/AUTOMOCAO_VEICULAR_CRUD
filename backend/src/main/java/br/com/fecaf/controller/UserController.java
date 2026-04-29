@@ -30,4 +30,13 @@ public class UserController {
         List<UserDTO> users = userService.listAllUsers();
         return ResponseEntity.ok(users);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        userService.softDeleteUser(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
