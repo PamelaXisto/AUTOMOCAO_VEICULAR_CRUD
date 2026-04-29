@@ -1,4 +1,4 @@
-package br.com.fecaf.security;
+package br.com.fecaf.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

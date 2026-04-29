@@ -1,4 +1,4 @@
-package br.com.fecaf.security;
+package br.com.fecaf.security.jwt;
 
 import br.com.fecaf.model.User;
 import com.auth0.jwt.JWT;

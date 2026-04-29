@@ -1,5 +1,6 @@
-package br.com.fecaf.security;
+package br.com.fecaf.security.jwt;
 
+import br.com.fecaf.model.User;
 import br.com.fecaf.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found" + email));
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + email));
 
         return new JwtUserDetails(user);
     }
