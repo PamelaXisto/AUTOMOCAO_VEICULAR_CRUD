@@ -55,7 +55,7 @@ public class User {
     @Column(name = "status", nullable = false)
     private UserStatus statusUser = UserStatus.ACTIVE;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role")
     private Role role;
 }
