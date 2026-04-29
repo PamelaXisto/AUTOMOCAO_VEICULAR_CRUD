@@ -1,6 +1,6 @@
 package br.com.fecaf.config;
 
-import br.com.fecaf.security.JwtAuthenticationFilter;
+import br.com.fecaf.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/v1/users", "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/v1/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -36,7 +36,7 @@ public class UserService {
             throw new DuplicateCpfException();
         }
 
-        Role role = roleRepository.findByName("ROLE_USER")
+        Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Role não encontrada"));
 
         user.setRole(role);
@@ -56,7 +56,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
 
-        user.setStatusUser(UserStatus.DELETED);
+        user.setStatusUser(UserStatus.DISABLED);
 
         userRepository.save(user);
     }
