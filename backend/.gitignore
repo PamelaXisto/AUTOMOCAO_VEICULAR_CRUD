@@ -1,0 +1,18 @@
+# Ideias e Editores
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+gen/
+
+# Arquivos de Ambiente
+.env
+*.env
+
+# Compilação e Build
+target/
+*.class
+
+# Logs
+*.log
