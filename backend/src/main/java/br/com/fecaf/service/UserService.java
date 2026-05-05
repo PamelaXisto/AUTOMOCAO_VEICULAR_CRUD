@@ -1,9 +1,11 @@
 package br.com.fecaf.service;
 
 import br.com.fecaf.dto.request.UserDTO;
+import br.com.fecaf.dto.response.UserResponseDTO;
 import br.com.fecaf.enums.UserStatus;
 import br.com.fecaf.exception.custom.DuplicateCpfException;
 import br.com.fecaf.exception.custom.DuplicateEmailException;
+import br.com.fecaf.exception.custom.ResourceNotFoundException;
 import br.com.fecaf.mapper.UserMapper;
 import br.com.fecaf.model.Role;
 import br.com.fecaf.model.User;
@@ -26,49 +28,53 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO registerUser(UserDTO userDTO) {
+    public UserResponseDTO registerUser(UserDTO userDTO) {
+
+        validateUser(userDTO);
 
         User user = userMapper.toEntity(userDTO);
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new DuplicateEmailException();
-        }
-
-        if (userRepository.existsByCpf(user.getCpf())) {
-            throw new DuplicateCpfException();
-        }
-
         Role role = roleRepository.findByName("USER")
-                .orElseThrow(() -> new RuntimeException("Role não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role USER not found"));
 
         user.setRole(role);
+        user.setPasswordHash(passwordEncoder.encode(userDTO.password()));
 
-        String encryptedPassword = passwordEncoder.encode(userDTO.password());
-        user.setPasswordHash(encryptedPassword);
+        User savedUser = userRepository.save(user);
 
-        log.debug("User registered successfully: {}", user.getEmail());
+        log.info("User created successfully. Email: {}", savedUser.getEmail());
 
-        user = userRepository.save(user);
-
-        return userMapper.toDTO(user);
+        return userMapper.toResponseDTO(savedUser);
     }
 
-    public List<UserDTO> listAllUsers() {
+    public List<UserResponseDTO> listAllUsers() {
         log.info("Request to list all users");
-        List<User> users = userRepository.findAll();
 
-        return users.stream()
-                .map(userMapper::toDTO)
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toResponseDTO)
                 .toList();
     }
 
 
     public void softDeleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
         user.setStatusUser(UserStatus.DISABLED);
 
         userRepository.save(user);
+
+        log.info("User soft deleted. ID: {}", id);
+    }
+
+    private void validateUser(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.email())) {
+            throw new DuplicateEmailException();
+        }
+
+        if (userRepository.existsByCpf(userDTO.cpf())) {
+            throw new DuplicateCpfException();
+        }
     }
 }
