@@ -3,6 +3,7 @@ package br.com.fecaf.exception.handler;
 import br.com.fecaf.exception.custom.DuplicateCpfException;
 import br.com.fecaf.exception.custom.DuplicateEmailException;
 import br.com.fecaf.exception.custom.InvalidCredentialsException;
+import br.com.fecaf.exception.custom.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +42,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex) {
         Map<String, Object> body = buildBody(HttpStatus.UNAUTHORIZED, "Invalid Credentials", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 404,
+                        "error", "Not Found",
+                        "message", ex.getMessage()
+                )
+        );
     }
 
 }

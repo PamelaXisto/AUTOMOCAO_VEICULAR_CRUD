@@ -1,6 +1,7 @@
 package br.com.fecaf.controller;
 
 import br.com.fecaf.dto.request.UserDTO;
+import br.com.fecaf.dto.response.UserResponseDTO;
 import br.com.fecaf.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +19,16 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
 
-        UserDTO createdUser = userService.registerUser(userDTO);
+        UserResponseDTO createdUser = userService.registerUser(userDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.listAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.listAllUsers());
     }
 
     @DeleteMapping("/{id}")

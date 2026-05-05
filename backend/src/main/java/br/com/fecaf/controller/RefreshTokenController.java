@@ -1,6 +1,6 @@
 package br.com.fecaf.controller;
 
-import br.com.fecaf.dto.request.RefreshTokenRequestDTO;
+import br.com.fecaf.dto.request.RefreshTokenDTO;
 import br.com.fecaf.dto.response.RefreshTokenResponseDTO;
 import br.com.fecaf.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class RefreshTokenController {
 
     @PostMapping("/refresh")
     public ResponseEntity<RefreshTokenResponseDTO> refresh(
-            @RequestBody RefreshTokenRequestDTO request) {
+            @RequestBody RefreshTokenDTO request) {
 
         var response = service.refresh(request.refreshToken());
         return ResponseEntity.ok(response);
@@ -27,7 +27,7 @@ public class RefreshTokenController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
-            @RequestBody RefreshTokenRequestDTO request) {
+            @RequestBody RefreshTokenDTO request) {
 
         service.revoke(request.refreshToken());
         return ResponseEntity.noContent().build();

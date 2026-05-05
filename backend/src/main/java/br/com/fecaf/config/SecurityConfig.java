@@ -28,9 +28,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/v1/users", "/auth/login").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/v1/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/v1/users", "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/v1/users/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/vehicles/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
