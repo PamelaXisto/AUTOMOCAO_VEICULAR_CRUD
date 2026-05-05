@@ -16,7 +16,7 @@ public class JwtService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    private final int EXPIRATION = 1000 * 60 * 60;
+    private final int EXPIRATION = 1000 * 60 * 15;
 
     public String generateToken(User user) {
         try {
