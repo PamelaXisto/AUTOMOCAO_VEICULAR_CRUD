@@ -1,58 +1,43 @@
-// CONTROLLER irá receber as requisições/HTTP
-
 package br.com.fecaf.controller;
 
+import br.com.fecaf.dto.request.VehicleDTO;
 import br.com.fecaf.model.Vehicle;
 import br.com.fecaf.service.VehicleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://127.0.0.1:5501", allowedHeaders = "*")
-@RequestMapping("/api/veiculos") //Caminho
+@RequestMapping("/api/vehicles")
 public class VehicleController {
 
-    @Autowired
-    private VehicleService veiculoService;
+    private final VehicleService vehicleService;
 
-
-    // Endpoint para listar os veiculos
-    @GetMapping("/listarVeiculos")
-    public List<Vehicle> listarVeiculos() {
-        return veiculoService.listarVeiculos();
+    @GetMapping
+    public List<Vehicle> getAllVehicles() {
+        return vehicleService.getAllVehicles();
     }
 
-
-    // Endpoint para cadastrar um novo veículo
-    @PostMapping("/cadastrarVeiculos")
-    public ResponseEntity<Vehicle> cadastrarVeiculo(@RequestBody Vehicle veiculo) {
-        Vehicle newVeiculo = veiculoService.cadastrarVeiculo(veiculo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newVeiculo);
+    @PostMapping
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody VehicleDTO dto) {
+        Vehicle newVehicle = vehicleService.createVehicle(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newVehicle);
     }
 
-
-    // Endpoint para editar um veículo existente
-    @PutMapping("/editarVeiculo/{id}")
-    public ResponseEntity<Vehicle> editarVeiculo(@PathVariable Integer id, @RequestBody Vehicle veiculo) {
-        Vehicle veiculoAtualizado = veiculoService.editarVeiculo(id, veiculo);
-
-        if (veiculoAtualizado != null) {
-            return ResponseEntity.ok(veiculoAtualizado);
-        } else {
-            return ResponseEntity.notFound().build();
-
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Integer id, @RequestBody VehicleDTO dto) {
+        Vehicle updateVehicle = vehicleService.updateVehicle(id, dto);
+        return ResponseEntity.ok(updateVehicle);
     }
 
-
-    // Endpoint para deletar um veículo
-    @DeleteMapping("/deletarVeiculo/{id}")
-    public ResponseEntity<Void> deletarVeiculo(@PathVariable int id) {
-        veiculoService.deletarVeiculo(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVehicle(@PathVariable int id) {
+        vehicleService.deleteVehicle(id);
+        return ResponseEntity.noContent().build();
     }
 }

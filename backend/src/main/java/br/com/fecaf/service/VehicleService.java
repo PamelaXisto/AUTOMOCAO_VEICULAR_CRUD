@@ -1,55 +1,49 @@
 package br.com.fecaf.service;
 
 
+import br.com.fecaf.dto.request.VehicleDTO;
+import br.com.fecaf.exception.custom.ResourceNotFoundException;
+import br.com.fecaf.mapper.VehicleMapper;
 import br.com.fecaf.model.Vehicle;
 import br.com.fecaf.repository.VehicleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 // Validações
 
 @Service
+@RequiredArgsConstructor
 public class VehicleService {
 
-    @Autowired
-    private VehicleRepository veiculoRepository;
+    private final VehicleRepository vehicleRepository;
+    private final VehicleMapper vehicleMapper;
 
-    // Metodo para listar Veículos
-    public List<Vehicle> listarVeiculos() {
-        return veiculoRepository.findAll();
+    public List<Vehicle> getAllVehicles() {
+        return vehicleRepository.findAll();
     }
 
 
-    // Metodo para salvar/criar novo Veículo
-    public Vehicle cadastrarVeiculo(Vehicle veiculo) {
-        return veiculoRepository.save(veiculo);
+    public Vehicle createVehicle(VehicleDTO dto) {
+        Vehicle vehicle = vehicleMapper.toEntity(dto);
+        return vehicleRepository.save(vehicle);
     }
 
 
-    public Vehicle editarVeiculo(Integer id, Vehicle veiculo) {
-        Optional<Vehicle> veiculoExistente = veiculoRepository.findById(id);
+    public Vehicle updateVehicle(Integer id, VehicleDTO dto) {
+        Vehicle existingVehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
 
-        if (veiculoExistente.isPresent()) {
-            Vehicle veiculoAtualizado = veiculoExistente.get();
-            veiculoAtualizado.setModel(veiculo.getModel());
-            veiculoAtualizado.setYear(veiculo.getYear());
-            veiculoAtualizado.setBrand(veiculo.getBrand());
-            veiculoAtualizado.setMileage(veiculo.getMileage());
-            veiculoAtualizado.setFuelType(veiculo.getFuelType());
-            veiculoAtualizado.setAvailability(veiculo.getAvailability());
-            veiculoAtualizado.setPrice(veiculo.getPrice());
-            veiculoAtualizado.setImageUrl(veiculo.getImageUrl());
-            return veiculoRepository.save(veiculoAtualizado);
-        } else {
-            return null;
+        vehicleMapper.updateVehicleFromDto(dto, existingVehicle);
+
+        return vehicleRepository.save(existingVehicle);
+    }
+
+    public void deleteVehicle(int id) {
+        if (!vehicleRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Vehicle not found with id: " + id);
         }
-    }
-
-    // Metodo para deletar um veículo
-    public void deletarVeiculo(int id) {
-        veiculoRepository.deleteById(id);
+        vehicleRepository.deleteById(id);
     }
 }
