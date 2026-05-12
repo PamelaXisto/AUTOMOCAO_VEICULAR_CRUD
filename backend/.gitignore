@@ -1,4 +1,7 @@
-# Ideias e Editores
+# Arquivo de ambiente
+.env
+
+# Configurações do IntelliJ
 .idea/
 *.iml
 *.iws
@@ -6,13 +9,9 @@
 out/
 gen/
 
-# Arquivos de Ambiente
-.env
-*.env
-
-# Compilação e Build
+# Compilação e dependências
 target/
-*.class
+.mvn/
 
 # Logs
 *.log
