@@ -1,0 +1,14 @@
+# Arquivo de ambiente
+.env
+
+# Configurações do IntelliJ
+.idea/
+*.iml
+out/
+
+# Compilação e dependências
+target/
+.mvn/
+
+# Logs
+*.log
