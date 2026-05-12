@@ -28,19 +28,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = recoverToken(request);
 
         if (token != null) {
-            String email = jwtService.validateToken(token);
+            try {
+                String email = jwtService.validateToken(token);
 
-            if (email != null) {
-                UserDetails user = userDetailsService.loadUserByUsername(email);
-
-                var auth = new UsernamePasswordAuthenticationToken(
-                        user,
-                        null,
-                        user.getAuthorities()
-                );
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                if (email != null) {
+                    UserDetails user = userDetailsService.loadUserByUsername(email);
+                    var auth = new UsernamePasswordAuthenticationToken(
+                            user,
+                            null,
+                            user.getAuthorities()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            } catch (Exception e) {
+                // Se o token for inválido, não setamos a autenticação no contexto.
+                // O Spring Security decidirá se barra ou não baseado nas regras da SecurityConfig.
+                System.out.println("Erro ao validar token: " + e.getMessage());
             }
         }
+
         filterChain.doFilter(request, response);
     }
 

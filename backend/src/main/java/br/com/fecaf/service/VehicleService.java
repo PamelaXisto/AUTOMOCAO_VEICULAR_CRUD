@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// Validações
-
 @Service
 @RequiredArgsConstructor
 public class VehicleService {
