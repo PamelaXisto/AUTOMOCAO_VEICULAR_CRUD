@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthService {
 
+    private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -31,11 +32,13 @@ public class AuthService {
 
         User user = userDetails.getUser();
 
-        String token = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
+        var refreshToken = refreshTokenService.create(user);
 
         return new LoginResponseDTO(
                 user.getName(),
-                token
+                accessToken,
+                refreshToken.getToken()
         );
     }
 }
