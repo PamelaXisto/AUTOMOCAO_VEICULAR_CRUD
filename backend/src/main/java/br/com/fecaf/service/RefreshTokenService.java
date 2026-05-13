@@ -16,7 +16,7 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     private final RefreshTokenRepository repository;
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     public RefreshToken create(User user){
         RefreshToken token = RefreshToken.builder()
