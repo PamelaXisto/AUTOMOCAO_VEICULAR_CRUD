@@ -28,6 +28,7 @@ public class SeedConfig {
                     .orElseGet(() -> {
                         Role role = new Role();
                         role.setName("ADMIN");
+                        role.setDescription("Acesso total de administrador");
                         return roleRepository.save(role);
                     });
 
