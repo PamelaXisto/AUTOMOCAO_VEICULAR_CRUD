@@ -1,72 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Veicular PX</title>
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
-    <header class="header">
-        <h1>PX AutoSolution</h1>
-        <button id="toggleThemeBtn" class="theme-btn">Trocar Tema</button>
-    </header>
-
-    <main class="main-content">
-        <section class="form-section">
-            <h2>Cadastrar Veículo</h2>
-            <form>
-                <div class="form-row">
-                    <input type="text" id="modelInput" placeholder="Modelo">
-                    <input type="number" id="yearInput" placeholder="Ano">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="brandInput" placeholder="Marca">
-                    <input type="text" id="mileageInput" placeholder="Quilometragem">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="fuelInput" placeholder="Combustível">
-                    <input type="number" id="priceInput" placeholder="Preço">
-                </div>
-                <div class="form-row">
-                    <input type="text" id="availabilityInput" placeholder="Disponibilidade">
-                    <input type="text" id="imageInput" accept="image/*" placeholder="URL Imagem">
-                </div>
-
-                <button type="button" onclick="addVehicle()">Adicionar Veículo</button>
-            </form>
-        </section>
-
-        <section class="search-section">
-            <h2>Verificar Veículo</h2>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Digite a marca do veículo">
-                <button onclick="searchVehicle()">Verificar Veículo</button>
-                <button onclick="loadCards()">Recarregar Lista</button>
-            </div>
-        </section>
-
-
-        <h2 class="catalogo-novos">Catálogo de Veículos Novos</h2>
-        <div id="cardsWrapper">
-            <section id="cardContainer" class="card-container">
-            </section>
-        </div>
-        
-        <h2 class="catalogo-seminovos">Catálogo de Veículos Semi Novos</h2>
-        <div id="cardsWrapper">
-            <section id="semiNovoContainer" class="card-container">
-            </section>
-        </div>
-
-    </main>
-
-    <footer class="footer">
-        <div class="footer-bar">
-            <p>© 2025 PX A.S. All Rights Reserved.</p>
-        </div>
-    </footer>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PX AutoSolution</title>
+  </head>
+  <body>
+    <div id="root"></div>
     
-    <script src="./js/script.js"></script>
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
